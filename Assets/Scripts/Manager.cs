@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Manager : MonoBehaviour
 {
     public static Manager instance;
+
+    public CurveDrawer curveDrawer;
 
     private void Awake()
     {
@@ -13,10 +16,14 @@ public class Manager : MonoBehaviour
 
     private void Start()
     {
-        TurtleCurve myCurve = new TurtleCurve(Sequences.TM, new TurtleMove[] { new TurtleMove(1, 0, 0), new TurtleMove(0, 0, 90) }, 8);
-        foreach (TurtleMove move in myCurve.path)
+        curveDrawer.turtleCurve = new TurtleCurve(MyMath.TM, new TurtleState[] { new TurtleState(2, 0, -60), new TurtleState(1, 0, 90) });
+    }
+
+    private void Update()
+    {
+        if (Input.GetMouseButton(0))
         {
-            Debug.Log(move);
+            curveDrawer.stepTime += Time.deltaTime * 5;
         }
     }
 }

@@ -2,31 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 public class TurtleCurve
 {
     public Func<int, int> sequence;
-    public TurtleMove[] legend;
-    public TurtleMove[] path;
-    public int steps;
+    public TurtleState[] legend;
+    private List<TurtleState> path;
 
-    public TurtleCurve(Func<int, int> sequence, TurtleMove[] legend, int steps)
+    public TurtleCurve(Func<int, int> sequence, TurtleState[] legend)
     {
         this.sequence = sequence;
         this.legend = legend;
-        this.steps = steps;
-
-        CalculatePath();
+        this.path = new List<TurtleState> { new TurtleState(0, 0, 0) };
     }
 
-    private void CalculatePath()
+    public TurtleState[] GetPath(int steps)
     {
-        path = new TurtleMove[steps + 1];
-        path[0] = new TurtleMove { pos = Vector3.zero, heading = 0f };
-
-        for (int i = 0; i < steps; i++)
+        if (path.Count <= steps)
         {
-            path[i + 1] = path[i] + legend[sequence(i)];
+            for (int i = path.Count - 1; i < steps; i++)
+            {
+                path.Add(path[i] + legend[sequence(i)]);
+            }
         }
+        return path.Take(steps + 1).ToArray();
     }
 }
