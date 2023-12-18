@@ -24,14 +24,15 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="1.4895062"
-     inkscape:cx="411.54579"
-     inkscape:cy="394.42603"
-     inkscape:window-width="1920"
-     inkscape:window-height="1009"
-     inkscape:window-x="1912"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
+     inkscape:cx="403.15374"
+     inkscape:cy="461.22668"
+     inkscape:window-width="1350"
+     inkscape:window-height="1032"
+     inkscape:window-x="4269"
+     inkscape:window-y="4"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1"
+     showguides="false" />
   <defs
      id="defs1" />
   <g
@@ -45,7 +46,10 @@
        cy="58.157299"
        rx="6.0290155"
        ry="3.3913214"
-       transform="rotate(22.848304)" />
+       transform="rotate(22.848304)"
+       inkscape:export-filename="Assets\Sprites\turtle.png"
+       inkscape:export-xdpi="200"
+       inkscape:export-ydpi="200" />
     <ellipse
        style="fill:#74c848;fill-opacity:1;stroke:none;stroke-width:1;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
        id="path4-8"
@@ -72,7 +76,7 @@
        transform="matrix(0.92153615,-0.38829257,-0.38829257,-0.92153615,0,0)" />
     <path
        style="fill:#74c848;fill-opacity:1;stroke:none;stroke-width:1;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-       d="m 99.304979,100.66061 c -1.337628,-1.342259 0.57097,-4.334957 -0.0888,-6.305917 -0.659788,-1.97096 -3.990124,-2.577109 -3.641447,-4.973685 0.348677,-2.396576 3.937147,-4.999242 6.661188,-5.062501 2.72405,-0.06326 6.11112,2.080426 6.57237,4.529606 0.46125,2.44918 -3.17666,3.711764 -3.9079,5.773026 -0.73124,2.061262 0.85586,4.877302 -0.53289,6.128291 -1.38875,1.25098 -3.72487,1.25344 -5.062501,-0.0888 z"
+       d="m 100.0204,100.74606 c -1.084984,-1.459004 0.46314,-4.711979 -0.0721,-6.854355 -0.535179,-2.142377 -3.23651,-2.801243 -2.953689,-5.406251 0.282822,-2.605009 3.193539,-5.434031 5.403079,-5.502792 2.20956,-0.06876 4.9569,2.261363 5.33104,4.92355 0.37413,2.662188 -2.57668,4.03458 -3.16981,6.275112 -0.59312,2.240531 0.69421,5.301485 -0.43224,6.661276 -1.12645,1.35978 -3.02135,1.36246 -4.10634,-0.0965 z"
        id="path3"
        sodipodi:nodetypes="zzzzzzzz" />
     <ellipse
