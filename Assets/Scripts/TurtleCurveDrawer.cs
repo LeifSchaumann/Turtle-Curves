@@ -5,34 +5,41 @@ using System.Linq;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using static UnityEditorInternal.VersionControl.ListControl;
 
-public class CurveDrawer : MonoBehaviour
+public class TurtleCurveDrawer : MonoBehaviour
 {
-    public TurtleCurve turtleCurve;
+    private TurtleCurve turtleCurve;
     public GameObject turtleObject;
     public int steps;
     public float stepTime;
     public bool animationEnabled;
+    public bool showTurtle;
     public AnimationCurve moveAC;
     public AnimationCurve turnAC;
+    public float speed;
 
     private CustomLineRenderer lineRenderer;
 
     private void Awake()
     {
         lineRenderer = GetComponent<CustomLineRenderer>();
+        turtleCurve = GetComponent<TurtleCurve>();
     }
 
     public void Update()
     {
+        stepTime += Time.deltaTime * speed * Manager.instance.globalSpeed;
+        steps = Mathf.FloorToInt(stepTime) + 1;
+        turtleObject.SetActive(showTurtle);
+        TurtleState[] path = turtleCurve.GetPath(steps);
+        if (steps < 1 || steps > path.Length - 1)
+        {
+            Debug.Log(steps);
+        }
+        TurtleState startState = path[steps - 1];
+        TurtleState endState = path[steps];
         if (animationEnabled)
         {
-            steps = Mathf.FloorToInt(stepTime) + 1;
-            TurtleState[] path = turtleCurve.GetPath(steps);
-            TurtleState startState = path[steps - 1];
-            TurtleState endState = path[steps];
             float stepProgress = stepTime - steps + 1f;
-
-            turtleObject.SetActive(true);
             if (stepProgress < 0.5f)
             {
                 turtleObject.transform.localRotation = MyMath.Rotation(startState.heading);
@@ -43,16 +50,14 @@ public class CurveDrawer : MonoBehaviour
                 turtleObject.transform.localPosition = endState.pos;
                 turtleObject.transform.localRotation = Quaternion.Lerp(MyMath.Rotation(startState.heading), MyMath.Rotation(endState.heading), turnAC.Evaluate(stepProgress * 2f - 1f));
             }
-
             Vector3[] points = (from move in path select move.pos).ToArray();
             points[points.Length - 1] = turtleObject.transform.localPosition;
             lineRenderer.SetPoints(points);
         }
         else
         {
-            turtleObject.SetActive(false);
-
-            TurtleState[] path = turtleCurve.GetPath(steps);
+            turtleObject.transform.localRotation = MyMath.Rotation(endState.heading);
+            turtleObject.transform.localPosition = endState.pos;
             Vector3[] points = (from move in path select move.pos).ToArray();
             lineRenderer.SetPoints(points);
         }

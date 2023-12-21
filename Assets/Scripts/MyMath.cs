@@ -22,17 +22,23 @@ public static class MyMath
         }
         return ret;
     }
-    public static int TM(int n)
+    public static Func<int, int> TM(int p)
     {
-        string binary = Convert.ToString(n, 2);
-        int output = 0;
-        foreach (char c in binary)
+        Func<int, int> tp = null;
+        tp = (int n) =>
         {
-            if (c == '1')
-            {
-                output = (output + 1) % 2;
-            }
-        }
-        return output;
+            if (n == 0) { return 0; }
+            return (tp(n / p) + n) % p;
+        };
+        return tp;
+    }
+
+    public static Func<int, int> uSeq(int p, int q)
+    {
+        Func<int, int> tp = TM(p);
+        return (int n) =>
+        {
+            return q * tp(n) + (n % q);
+        };
     }
 }

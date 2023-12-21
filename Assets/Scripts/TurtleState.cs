@@ -10,11 +10,21 @@ public struct TurtleState
     public TurtleState(float x, float y, float heading)
     {
         this.pos = new Vector3(x, y);
-        this.heading = heading;
+        this.heading = heading % 360f;
+    }
+    public TurtleState(Vector3 pos, float heading)
+    {
+        this.pos = pos;
+        this.heading = heading % 360f;
+    }
+    public TurtleState(Vector2 pos, float heading)
+    {
+        this.pos = new Vector3(pos.x, pos.y);
+        this.heading = heading % 360f;
     }
     public static TurtleState operator +(TurtleState start, TurtleState add)
     {
-        return new TurtleState { pos = start.pos + Quaternion.AngleAxis(start.heading, Vector3.forward) * add.pos, heading = (start.heading + add.heading) % 360f };
+        return new TurtleState { pos = start.pos + MyMath.Rotation(start.heading) * add.pos, heading = (start.heading + add.heading) % 360f };
     }
     public override string ToString()
     {

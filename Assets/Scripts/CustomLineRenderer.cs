@@ -9,11 +9,14 @@ public class CustomLineRenderer : MonoBehaviour
     private Mesh mesh;
     private List<Vector3> points;
     public float thickness;
+    public Color color;
 
     void Start()
     {
         mesh = new Mesh();
+        mesh.indexFormat = UnityEngine.Rendering.IndexFormat.UInt32;
         GetComponent<MeshFilter>().mesh = mesh;
+        GetComponent<MeshRenderer>().material.color = color;
     }
 
     public void SetPoints(Vector3[] newPoints)
@@ -47,7 +50,7 @@ public class CustomLineRenderer : MonoBehaviour
         {
             Vector3 side = Vector3.Cross(Vector3.forward, points[i + 1] - points[i]);
             side.Normalize();
-            side *= thickness / 2f;
+            side *= thickness * Camera.main.orthographicSize / 10f;
 
             vertices[vertexIndex++] = points[i] + side;
             vertices[vertexIndex++] = points[i] - side;

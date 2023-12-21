@@ -4,19 +4,24 @@ using UnityEngine;
 using System;
 using System.Linq;
 
-public class TurtleCurve
+public class TurtleCurve : MonoBehaviour
 {
     public Func<int, int> sequence;
     public TurtleState[] legend;
     private List<TurtleState> path;
 
-    public TurtleCurve(Func<int, int> sequence, TurtleState[] legend)
+    private void Awake()
     {
-        this.sequence = sequence;
-        this.legend = legend;
+        UpdateSettings();
+    }
+    public virtual void UpdateSettings()
+    {
+        ResetPath();
+    }
+    public void ResetPath()
+    {
         this.path = new List<TurtleState> { new TurtleState(0, 0, 0) };
     }
-
     public TurtleState[] GetPath(int steps)
     {
         if (path.Count <= steps)
