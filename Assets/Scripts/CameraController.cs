@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    public TurtleCurveDrawer focusTCD;
+
+    public float minAutoZoom;
+    
     [Tooltip("Pan Speed")]
     public float panSpeed;
 
@@ -23,8 +27,8 @@ public class CameraController : MonoBehaviour
     public float maxZoom;
 
     Camera myCamera;
-    Vector3 desiredPos;
-    float desiredZoom;
+    public Vector3 desiredPos;
+    public float desiredZoom;
 
     void Awake()
     {
@@ -37,32 +41,47 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        
-        // Calculate desired pos
-
-        Vector3 posInput = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        if (posInput.magnitude > 0.5)
+        if (focusTCD == null)
         {
-            desiredPos += posInput.normalized * Time.deltaTime * panSpeed * (desiredZoom + 1);
+            // Calculate desired pos
+
+            Vector3 posInput = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            if (posInput.magnitude > 0.5)
+            {
+                desiredPos += posInput.normalized * Time.deltaTime * panSpeed * (desiredZoom + 1);
+            }
+
+            // Calculate desired zoom
+
+            float zoomChange = 1 - Input.GetAxisRaw("Mouse ScrollWheel") * zoomSpeed * Time.deltaTime * 50;
+            desiredZoom *= zoomChange;
+            desiredZoom = Mathf.Clamp(desiredZoom, minZoom, maxZoom);
+
+            // Center zoom on mouse
+
+            if (desiredZoom > minZoom && desiredZoom < maxZoom)
+            {
+                desiredPos += (1 - zoomChange) * (myCamera.ScreenToWorldPoint(Input.mousePosition) - desiredPos);
+            }
+
+            // Move towards desired pos and zoom
+
+            transform.position += (desiredPos - transform.position) * panSmoothSpeed;
+            myCamera.orthographicSize += (desiredZoom - myCamera.orthographicSize) * zoomSmoothSpeed;
         }
-
-        // Calculate desired zoom
-
-        float zoomChange = 1 - Input.GetAxisRaw("Mouse ScrollWheel") * zoomSpeed * Time.deltaTime * 50;
-        desiredZoom *= zoomChange;
-        desiredZoom = Mathf.Clamp(desiredZoom, minZoom, maxZoom);
-
-        // Center zoom on mouse
-
-        if (desiredZoom > minZoom && desiredZoom < maxZoom)
+        else
         {
-            desiredPos += (1 - zoomChange) * (myCamera.ScreenToWorldPoint(Input.mousePosition) - desiredPos);
+            Rect TCbounds = focusTCD.turtleCurve.bounds;
+            desiredPos = new Vector3(TCbounds.center.x, TCbounds.center.y, -10f);
+            desiredZoom = Mathf.Max(TCbounds.height * 0.8f, minAutoZoom);
+
+            // Move towards desired pos and zoom
+
+            transform.position += (desiredPos - transform.position) * panSmoothSpeed / 5f;
+            myCamera.orthographicSize += (desiredZoom - myCamera.orthographicSize) * zoomSmoothSpeed / 5f;
         }
         
-        // Move towards desired pos and zoom
-
-        transform.position += (desiredPos - transform.position) * panSmoothSpeed;
-        myCamera.orthographicSize += (desiredZoom - myCamera.orthographicSize) * zoomSmoothSpeed;
+        
 
         
 

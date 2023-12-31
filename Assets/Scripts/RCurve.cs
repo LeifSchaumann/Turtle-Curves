@@ -11,17 +11,8 @@ public class RCurve : TurtleCurve
     public int k;
     public int q;
 
-    public RCurve settings;
-    public RCurve(RCurve settings)
-    {
-        this.settings = settings;
-        UpdateSettings();
-    }
     public override void UpdateSettings()
     {
-        int p = settings.p;
-        int q = settings.q;
-        int k = settings.k;
         sequence = MyMath.uSeq(p, q);
         legend = new TurtleState[p * q];
         for (int x = 0; x < p; x++)

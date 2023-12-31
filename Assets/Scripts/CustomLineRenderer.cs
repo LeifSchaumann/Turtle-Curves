@@ -50,7 +50,7 @@ public class CustomLineRenderer : MonoBehaviour
         {
             Vector3 side = Vector3.Cross(Vector3.forward, points[i + 1] - points[i]);
             side.Normalize();
-            side *= thickness * Camera.main.orthographicSize / 10f;
+            side *= thickness * Mathf.Pow(Camera.main.orthographicSize, 0.7f) / 10f;
 
             vertices[vertexIndex++] = points[i] + side;
             vertices[vertexIndex++] = points[i] - side;

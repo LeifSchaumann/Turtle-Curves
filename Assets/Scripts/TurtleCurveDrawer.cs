@@ -7,12 +7,13 @@ using static UnityEditorInternal.VersionControl.ListControl;
 
 public class TurtleCurveDrawer : MonoBehaviour
 {
-    private TurtleCurve turtleCurve;
+    public TurtleCurve turtleCurve;
     public GameObject turtleObject;
     public int steps;
     public float stepTime;
     public bool animationEnabled;
     public bool showTurtle;
+    public bool liveUpdate;
     public AnimationCurve moveAC;
     public AnimationCurve turnAC;
     public float speed;
@@ -27,6 +28,10 @@ public class TurtleCurveDrawer : MonoBehaviour
 
     public void Update()
     {
+        if (liveUpdate)
+        {
+            turtleCurve.UpdateSettings();
+        }
         stepTime += Time.deltaTime * speed * Manager.instance.globalSpeed;
         steps = Mathf.FloorToInt(stepTime) + 1;
         turtleObject.SetActive(showTurtle);
